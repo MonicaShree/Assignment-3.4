@@ -1,0 +1,88 @@
+1. Explain HDFS federation and High availability
+
+
+ HDFS FEDERATION 
+
+  * HDFS federation seperates the namespace layer and storage layer .
+
+  * It expands the architecture of HDFS cluster to allow new implementations.
+
+  * It provides block storage .
+
+  NAMESPACE LAYER :
+
+  * Consists of directories , files and blocks . 
+
+  * Create , delete , modify and list files or directories .
+
+  BLOCK STORAGE 
+
+  * Block management : 
+
+   - Supports creation , modification ,deletion and block location operations . 
+
+   - Handles replication . 
+
+  * Storage :
+
+   - Read and write access to blocks . 
+
+   - Block management manages the data nodes and performs create , delete , modify operations .
+
+   - Physical storage stores the blocks . 
+
+  * Hadoop federation allows scaling the name 
+
+
+ HDFS AVAILABILITY
+
+  * The namenode is the single point of failure in HDFS cluster . 
+
+  * Every cluster has a single name node and the host or process has become unavailable . 
+
+  * The whole cluster is unavailable until the name node is restarted or brought upto a new host .
+
+  * The high availability feature brings in extra Name Node to hadoop architecture which is configured for automatic fail over.
+  
+  * The main aim of high availability is to provide availability to big data application 24X7. 
+  
+  * It is an improvement to hadoop's failure handling code. It MAKES hadoop robust .
+
+  * The hadoop configuration allows user to build cluster horizontally with many Name Nodes that can operate autonomously with a common data storage pool .
+
+  * It offers high scalability . 
+
+  * High availability is provided by using two hadoop name nodes one for active configuration and the other is for passive configuration.
+  
+  * Hadoop high availability feature tackles the namenode failure problem for all components in hadoop stack .
+
+
+
+
+
+
+2. How HDFS handles failures while writing data
+
+ 
+  * When data is written to HDFS , it calculates the checksum for data and all data nodes . 
+
+  * This is required to verify the data against checksum that is first calculated with the checksum calculated before they were stored on datanodes .
+
+  * This helps to find if the data is corrupted or not .
+ 
+  * The pipeline is closed and all packets in ack queue are added to front of data queue .
+
+  * The current block is given new identity which is sent to to name node .
+
+  * The failed one is removed from pipeline 
+.
+  * The namenode notices the block is not replicated enough and it arranges for more replications to be created on another node .
+
+  * The blocks will be asynchronously replicated across the cluster until its target replication factor is reached .
+
+  * During data streaming failure , the data node detects a failure and the data node itself takes it out by closing the connection . 
+
+  *In pipeline recovery data is written on sequential blocks in which blocks are split into packets and then submitted on data node .
+  
+  * When client detects a failure it rebuilds the pipeline with the left over data nodes .
+  
